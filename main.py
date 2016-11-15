@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # main.py
-# 分析 EGG 轉換成聲音
+# 分析 EEG 轉換成聲音
 
 import os
 from subprocess import Popen, PIPE
@@ -36,7 +36,7 @@ def playAll():
     p = Popen(['mpg123', '-q', '-f', '22768', fn], shell=False, stdout=PIPE, stdin=PIPE)
     print "bg music:", fn
     print "start:", p.pid
-    fn = processEGG()
+    fn = processEEG()
     if ENABLE_MPG123:
         doremi = mpg3player(fn)
     if ENABLE_MPG123PLAYER:
@@ -49,7 +49,7 @@ def playAll():
         if ENABLE_MPG123:
             if doremi.poll() is not None:
                 # 下一個單音
-                fn = processEGG()
+                fn = processEEG()
                 # doremi = mpg3player(fn)
                 doremi.play(fn)
                 print "doremi:", fn
@@ -57,7 +57,7 @@ def playAll():
         if ENABLE_MPG123PLAYER:
             if doremi.playing is False:
                 # 下一個單音
-                fn = processEGG()
+                fn = processEEG()
                 # doremi = mpg3player(fn)
                 doremi.play(fn)
                 print "doremi:", fn
@@ -68,8 +68,8 @@ def playAll():
             doremi.quitAll()
     print "done"
 
-def processEGG():
-    [attention, meditation, delta, theta, lowAlpha, heighAlpha, lowBeta, highBeta, lowGamma, highGamma] = getEGGData()
+def processEEG():
+    [attention, meditation, delta, theta, lowAlpha, heighAlpha, lowBeta, highBeta, lowGamma, highGamma] = getEEGData()
     # lead[1-3] 亂數選
     # folder = './music/lead'+str(randrange(1,4))+'/'
     # Delta, Theta, lowAlpha, heighAlpha, lowBeta, highBeta, lowGamma, highGamma
@@ -83,7 +83,7 @@ def processEGG():
 
 
 
-def getEGGData():
+def getEEGData():
     # [Attention, Meditation, Delta, Theta, lowAlpha, heighAlpha, lowBeta, highBeta, lowGamma, highGamma]
     return [int(100*random()) for i in xrange(10)]
 
